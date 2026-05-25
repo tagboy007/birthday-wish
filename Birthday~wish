@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Nunito', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  background: #fff0f5;
+}
+.bg {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #ffe4f0 0%, #fff8e7 50%, #ffe4f0 100%);
+  animation: bgShift 8s ease-in-out infinite alternate;
+  z-index: -2;
+}
+@keyframes bgShift {
+  0% { background: linear-gradient(135deg, #ffe4f0 0%, #fff8e7 50%, #e0f0ff 100%); }
+  100% { background: linear-gradient(135deg, #ffecd2 0%, #ffe4f0 50%, #fff8e7 100%); }
+}
+.floaters { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+.floater { position: absolute; font-size: 18px; animation: floatUp linear infinite; opacity: 0.5; }
+@keyframes floatUp {
+  0%   { transform: translateY(100vh) rotate(0deg); opacity: 0.5; }
+  100% { transform: translateY(-60px) rotate(360deg); opacity: 0; }
+}
+.screen {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px 16px;
+  max-width: 480px;
+  width: 100%;
+  max-height: 100vh;
+  overflow-y: auto;
+  animation: fadeSlideIn 0.45s cubic-bezier(.4,0,.2,1);
+}
+.screen.active { display: flex; }
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.teddy-wrap { 
+  animation: teddySway 2s ease-in-out infinite; 
+  filter: drop-shadow(0 8px 18px rgba(200,100,80,0.18));
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.teddy-wrap svg {
+  width: 100%;
+  max-width: 175px;
+  height: auto;
+}
+#s4 .teddy-wrap svg {
+  max-width: 145px;
+}
+.bday-title {
+  font-family: 'Pacifico', cursive;
+  font-size: clamp(2rem, 8vw, 2.6rem);
+  color: #e8527a;
+  margin: 12px 0 8px;
+  line-height: 1.2;
+  text-shadow: 2px 3px 0px #ffc0d0;
+}
+.section-title { 
+  font-family: 'Pacifico', cursive; 
+  font-size: clamp(1.6rem, 6vw, 2.2rem); 
+  color: #e8527a; 
+  margin: 12px 0 16px; 
+}
+.sub { 
+  font-size: clamp(0.95rem, 4vw, 1.05rem); 
+  color: #a06888; 
+  margin-bottom: 20px; 
+  line-height: 1.5; 
+  padding: 0 10px;
+}
+.stars { font-size: clamp(1.2rem, 5vw, 1.6rem); letter-spacing: 6px; margin: 6px 0; }
+.btn {
+  font-family: 'Nunito', sans-serif;
+  font-size: clamp(0.95rem, 4vw, 1.05rem);
+  font-weight: 800;
+  padding: 12px 32px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.13s, box-shadow 0.13s;
+  margin: 6px;
+  letter-spacing: 0.3px;
+  touch-action: manipulation;
+}
+.btn:hover  { transform: scale(1.05); }
+.btn:active { transform: scale(0.96); }
+.btn-pink   { background: linear-gradient(135deg,#ff6b9d,#ff8fab); color:#fff; box-shadow: 0 6px 18px rgba(255,107,157,.38); }
+.btn-green  { background: linear-gradient(135deg,#52b788,#40916c); color:#fff; box-shadow: 0 6px 18px rgba(64,145,108,.35); }
+.btn-yellow { background: linear-gradient(135deg,#ffd166,#ef9f27); color:#fff; box-shadow: 0 6px 18px rgba(239,159,39,.38); }
+.btn-soft   { background: #fce4ec; color: #c2547a; box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+.btns-row { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; width: 100%; }
+.big-emoji { font-size: clamp(3rem, 12vw, 3.8rem); margin: 4px 0 6px; animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+.gift-emoji { font-size: clamp(3.5rem, 14vw, 4.2rem); animation: giftBounce 1.5s ease-in-out infinite; }
+@keyframes giftBounce {
+  0%,100% { transform: translateY(0) rotate(-6deg); }
+  50%      { transform: translateY(-14px) rotate(6deg); }
+}
+.letter {
+  background: white;
+  border-radius: 20px;
+  padding: clamp(16px, 5vw, 26px) clamp(16px, 5vw, 24px);
+  text-align: left;
+  box-shadow: 0 8px 32px rgba(232,82,122,.13);
+  border: 2px dashed #ffc0d0;
+  max-width: 100%;
+  width: 100%;
+  margin: 4px 0 16px;
+}
+.letter-head { font-family: 'Pacifico', cursive; font-size: clamp(1.2rem, 5vw, 1.4rem); color: #e8527a; margin-bottom: 12px; text-align: center; }
+.letter p { font-size: clamp(0.88rem, 3.8vw, 0.95rem); color: #6d4c6d; line-height: 1.7; margin-bottom: 12px; }
+.letter p:last-of-type { margin-bottom: 8px; }
+.letter .sign { font-family: 'Pacifico', cursive; font-size: clamp(0.95rem, 4vw, 1.05rem); color: #e8527a; margin-top: 14px; text-align: right; }
+#confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 200; }
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="floaters" id="floaters"></div>
+<canvas id="confetti-canvas"></canvas>
+
+<div class="screen active" id="s1">
+  <div class="teddy-wrap">
+    <svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="54" cy="52" r="27" fill="#c8845c"/>
+      <circle cx="146" cy="52" r="27" fill="#c8845c"/>
+      <circle cx="54" cy="52" r="16" fill="#f0a880"/>
+      <circle cx="146" cy="52" r="16" fill="#f0a880"/>
+      <ellipse cx="100" cy="170" rx="60" ry="63" fill="#c8845c"/>
+      <ellipse cx="100" cy="173" rx="37" ry="40" fill="#f0a880"/>
+      <circle cx="100" cy="93" r="56" fill="#c8845c"/>
+      <ellipse cx="100" cy="107" rx="29" ry="23" fill="#f0a880"/>
+      <circle cx="80" cy="81" r="10" fill="#2a1508"/>
+      <circle cx="120" cy="81" r="10" fill="#2a1508"/>
+      <circle cx="84" cy="77"  r="4"  fill="white"/>
+      <circle cx="124" cy="77" r="4"  fill="white"/>
+      <ellipse cx="100" cy="102" rx="9" ry="7" fill="#2a1508"/>
+      <path d="M 87 117 Q 100 129 113 117" fill="none" stroke="#2a1508" stroke-width="2.8" stroke-linecap="round"/>
+      <circle cx="66"  cy="99" r="12" fill="#ff9eb5" opacity="0.44"/>
+      <circle cx="134" cy="99" r="12" fill="#ff9eb5" opacity="0.44"/>
+      <ellipse cx="38" cy="152" rx="18" ry="34" fill="#c8845c" transform="rotate(-28,38,152)"/>
+      <ellipse cx="162" cy="147" rx="18" ry="34" fill="#c8845c" transform="rotate(28,162,147)"/>
+      <ellipse cx="77"  cy="225" rx="25" ry="14" fill="#c8845c"/>
+      <ellipse cx="123" cy="225" rx="25" ry="14" fill="#c8845c"/>
+      <text x="175" y="120" font-size="26" text-anchor="middle">🎂</text>
+    </svg>
+  </div>
+  <div class="bday-title">Happy Birthday<br>SHWATSUU!</div>
+  <div class="stars">✨ 🎉 ✨</div>
+  <div class="sub">Aaj tera special din hai! 🎈</div>
+  <button class="btn btn-pink" onclick="go('s2')">Next ➜</button>
+</div>
+
+<div class="screen" id="s2">
+  <div class="gift-emoji">🎁</div>
+  <div class="section-title">Want a gift?</div>
+  <div class="sub">Soch ke answer karna... 😏</div>
+  <div class="btns-row">
+    <button class="btn btn-green" onclick="go('s3')">Yes! 🥹</button>
+    <button class="btn btn-soft"  onclick="go('s2b')">No 🙄</button>
+  </div>
+</div>
+
+<div class="screen" id="s2b">
+  <div class="big-emoji">😤</div>
+  <div class="section-title" style="color:#e05050;">Nahi nahi NAHI!</div>
+  <div class="sub">
+    Arre yaar, birthday pe "no" thodi hota hai! 😂<br>
+    Gift toh lena hi padega, back ja! 🎂
+  </div>
+  <button class="btn btn-pink" onclick="go('s2')">Theek hai, back 😅</button>
+</div>
+
+<div class="screen" id="s3">
+  <div class="big-emoji">💌</div>
+  <div class="letter">
+    <div class="letter-head">Hey SHWATSUU! 🎉</div>
+    <p>Yaar, sirf 2 weeks hue hain humein baat karte huye — but honestly? Aisa lagta hi nahi. Tu itni naturally comfortable hai baat karne mein ki time ka pata hi nahi chala. ⚡</p>
+    <p>Online dosti mein aksar log surface level pe hi rehte hain, but tu actually real hai — apni baatein, apna vibe, sab genuine lagta hai. That's rare, and I genuinely appreciate that. 👊</p>
+    <p>And hn, tu meri pehli female friend hai, so glad I have you. 🌸</p>
+    <p>Mujhe nahi pata ki tu kitne din meri dost rahegi, but jab tak rahegi, best rahegi! 🤜🤛</p>
+    <p>Tujhe mile woh sab jo tu deserve karti hai — khushi, peace, aur obviously bahut saara cake. 🎂😂</p>
+    <p>Here's to knowing you longer, and many more late-night chats. Happy Birthday, Shwatsuu! 🌟</p>
+    <div class="sign">— SAYAD tera aacha dost(conform nhi hun nh iss liye)😅 💛</div>
+  </div>
+  <button class="btn btn-yellow" onclick="showFinal()">💛 Aww, thank you!</button>
+</div>
+
+<div class="screen" id="s4">
+  <div class="teddy-wrap">
+    <svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="54" cy="52" r="27" fill="#c8845c"/>
+      <circle cx="146" cy="52" r="27" fill="#c8845c"/>
+      <circle cx="54" cy="52" r="16" fill="#f0a880"/>
+      <circle cx="146" cy="52" r="16" fill="#f0a880"/>
+      <ellipse cx="100" cy="170" rx="60" ry="63" fill="#c8845c"/>
+      <ellipse cx="100" cy="173" rx="37" ry="40" fill="#f0a880"/>
+      <circle cx="100" cy="93" r="56" fill="#c8845c"/>
+      <ellipse cx="100" cy="107" rx="29" ry="23" fill="#f0a880"/>
+      <circle cx="80"  cy="81" r="10" fill="#2a1508"/>
+      <circle cx="120" cy="81" r="10" fill="#2a1508"/>
+      <circle cx="84"  cy="77" r="4"  fill="white"/>
+      <circle cx="124" cy="77" r="4"  fill="white"/>
+      <ellipse cx="100" cy="102" rx="9" ry="7" fill="#2a1508"/>
+      <path d="M 87 117 Q 100 129 113 117" fill="none" stroke="#2a1508" stroke-width="2.8" stroke-linecap="round"/>
+      <circle cx="66"  cy="99" r="12" fill="#ff9eb5" opacity="0.44"/>
+      <circle cx="134" cy="99" r="12" fill="#ff9eb5" opacity="0.44"/>
+      <ellipse cx="38"  cy="152" rx="18" ry="34" fill="#c8845c" transform="rotate(-28,38,152)"/>
+      <ellipse cx="162" cy="152" rx="18" ry="34" fill="#c8845c" transform="rotate(28,162,152)"/>
+      <ellipse cx="77"  cy="225" rx="25" ry="14" fill="#c8845c"/>
+      <ellipse cx="123" cy="225" rx="25" ry="14" fill="#c8845c"/>
+      <text x="24"  y="118" font-size="28" text-anchor="middle">🎉</text>
+      <text x="178" y="118" font-size="28" text-anchor="middle">🎊</text>
+    </svg>
+  </div>
+  <div class="bday-title">Happy Birthday<br>Again! 🥳</div>
+  <div class="stars">🎊 💛 🎊</div>
+  <div class="sub">
+    Have the most amazing day ever!<br>
+    You deserve ALL the happiness. 🌟
+  </div>
+</div>
+
+<script>
+const wrap = document.getElementById('floaters');
+const items = ['🌸','✨','🎀','💛','🌼','⭐','💕','🎈','🌟','🎊'];
+for (let i = 0; i < 20; i++) {
+  const d = document.createElement('div');
+  d.className = 'floater';
+  d.textContent = items[i % items.length];
+  d.style.left = Math.random() * 100 + 'vw';
+  d.style.top  = Math.random() * 100 + 'vh';
+  d.style.fontSize = (13 + Math.random() * 14) + 'px';
+  d.style.animationDuration = (7 + Math.random() * 9) + 's';
+  d.style.animationDelay = (-Math.random() * 12) + 's';
+  wrap.appendChild(d);
+}
+function go(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+function showFinal() { go('s4'); startConfetti(); }
+const canvas = document.getElementById('confetti-canvas');
+const ctx = canvas.getContext('2d');
+let pieces = [], running = false;
+const COLORS = ['#ff6b9d','#ffd166','#52b788','#74b9ff','#fd79a8','#ffeaa7','#55efc4','#fdcb6e','#e17055'];
+function Piece() { this.reset(); }
+Piece.prototype.reset = function() {
+  this.x = Math.random() * canvas.width; this.y = -12;
+  this.w = 7 + Math.random() * 8; this.h = 4 + Math.random() * 5;
+  this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+  this.speed = 2.5 + Math.random() * 3; this.angle = Math.random() * 360;
+  this.spin = (Math.random() - 0.5) * 5; this.drift = (Math.random() - 0.5) * 1.4;
+};
+Piece.prototype.update = function() {
+  this.y += this.speed; this.x += this.drift; this.angle += this.spin;
+  if (this.y > canvas.height + 10) this.reset();
+};
+Piece.prototype.draw = function() {
+  ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.angle * Math.PI / 180);
+  ctx.fillStyle = this.color; ctx.fillRect(-this.w/2, -this.h/2, this.w, this.h); ctx.restore();
+};
+function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
+function startConfetti() {
+  if (running) return; running = true; pieces = [];
+  for (let i = 0; i < 130; i++) pieces.push(new Piece());
+  (function loop() {
+    if (!running) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(loop);
+  })();
+}
+</script>
+</body>
+</html>
